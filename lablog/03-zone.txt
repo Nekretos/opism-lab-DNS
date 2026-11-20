@@ -1,0 +1,307 @@
+### zone-edit: додано записи з картки, serial +1
+; After every change: increase the serial, then run  zone-reload
+root@ns-se-201-11:/lab/zone# zone-reload
+zone se-201-11.lab/IN: loaded serial 2026112002
+OK
+zone reload queued
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 www.se-201-11.lab A +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 www.se-201-11.lab A +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 49379
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 3598df885495ce22010000006b004f9cf2ff6cd60b4e2b55 (good)
+;; QUESTION SECTION:
+;www.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+www.se-201-11.lab.	45	IN	A	10.53.0.80
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 1 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:12 UTC 2026
+;; MSG SIZE  rcvd: 123
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 status.se-201-11.lab CNAME +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 status.se-201-11.lab CNAME +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 65382
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 65d4425ab26e4ad2010000006b004f9c2cf32342083f7299 (good)
+;; QUESTION SECTION:
+;status.se-201-11.lab.		IN	CNAME
+
+;; ANSWER SECTION:
+status.se-201-11.lab.	45	IN	CNAME	www.se-201-11.lab.
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:12 UTC 2026
+;; MSG SIZE  rcvd: 128
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 mail.se-201-11.lab A +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 mail.se-201-11.lab A +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 27534
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: c76a86f7d2ad514e010000006b004f9cfcedb98fb28ebb94 (good)
+;; QUESTION SECTION:
+;mail.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+mail.se-201-11.lab.	45	IN	A	10.53.0.80
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:12 UTC 2026
+;; MSG SIZE  rcvd: 124
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 se-201-11.lab MX +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 se-201-11.lab MX +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 55960
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 7105a277a107dee1010000006b004f9c49b3ddea6e30cdbe (good)
+;; QUESTION SECTION:
+;se-201-11.lab.			IN	MX
+
+;; ANSWER SECTION:
+se-201-11.lab.		45	IN	MX	30 mail.se-201-11.lab.
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+mail.se-201-11.lab.	45	IN	A	10.53.0.80
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 1 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:12 UTC 2026
+;; MSG SIZE  rcvd: 140
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 se-201-11.lab TXT +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 se-201-11.lab TXT +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 37713
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 0e6a55ba4d1eb01b010000006b004f9ca0a13d42f01c79f4 (good)
+;; QUESTION SECTION:
+;se-201-11.lab.			IN	TXT
+
+;; ANSWER SECTION:
+se-201-11.lab.		45	IN	TXT	"lab-token=c4d4a729"
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 3 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:12 UTC 2026
+;; MSG SIZE  rcvd: 134
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 lab.se-201-11.lab A +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 lab.se-201-11.lab A +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 26411
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: f167229c98450bce010000006b004f9db211476897932ba6 (good)
+;; QUESTION SECTION:
+;lab.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+lab.se-201-11.lab.	25	IN	A	10.53.0.81
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:13 UTC 2026
+;; MSG SIZE  rcvd: 123
+
+
+### Порівняння резолвер / власний сервер
+root@ns-se-201-11:/lab/zone# dig status.se-201-11.lab
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> status.se-201-11.lab
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 8927
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;status.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+status.se-201-11.lab.	45	IN	CNAME	www.se-201-11.lab.
+www.se-201-11.lab.	45	IN	A	10.53.0.80
+
+;; Query time: 0 msec
+;; SERVER: 10.53.0.53#53(10.53.0.53) (UDP)
+;; WHEN: Fri Nov 20 13:48:13 UTC 2026
+;; MSG SIZE  rcvd: 83
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 status.se-201-11.lab +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 status.se-201-11.lab +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 11626
+;; flags: qr aa; QUERY: 1, ANSWER: 2, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 82e6888920547241010000006b004f9df20cfddd83e669e8 (good)
+;; QUESTION SECTION:
+;status.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+status.se-201-11.lab.	45	IN	CNAME	www.se-201-11.lab.
+www.se-201-11.lab.	45	IN	A	10.53.0.80
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:13 UTC 2026
+;; MSG SIZE  rcvd: 144
+
+
+root@ns-se-201-11:/lab/zone# dig se-201-11.lab MX
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> se-201-11.lab MX
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 14256
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;se-201-11.lab.			IN	MX
+
+;; ANSWER SECTION:
+se-201-11.lab.		45	IN	MX	30 mail.se-201-11.lab.
+
+;; Query time: 1 msec
+;; SERVER: 10.53.0.53#53(10.53.0.53) (UDP)
+;; WHEN: Fri Nov 20 13:48:13 UTC 2026
+;; MSG SIZE  rcvd: 63
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 se-201-11.lab MX +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 se-201-11.lab MX +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 57579
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: fb8a7368a63ffb0d010000006b004f9d41e6b32c0d9d8e1d (good)
+;; QUESTION SECTION:
+;se-201-11.lab.			IN	MX
+
+;; ANSWER SECTION:
+se-201-11.lab.		45	IN	MX	30 mail.se-201-11.lab.
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+mail.se-201-11.lab.	45	IN	A	10.53.0.80
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:13 UTC 2026
+;; MSG SIZE  rcvd: 140
+
+
+### Тимчасово додано '@ IN CNAME www'
+root@ns-se-201-11:/lab/zone# zone-check
+dns_master_load: /lab/zone/se-201-11.lab.zone:21: se-201-11.lab: CNAME and other data
+zone se-201-11.lab/IN: loading from master file /lab/zone/se-201-11.lab.zone failed: CNAME and other data
+zone se-201-11.lab/IN: not loaded due to errors.
+
+### Рядок видалено, перевірка:
+root@ns-se-201-11:/lab/zone# zone-check
+zone se-201-11.lab/IN: loaded serial 2026112002
+OK
+

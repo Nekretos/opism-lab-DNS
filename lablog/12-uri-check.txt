@@ -1,0 +1,115 @@
+root@ns-se-201-11:/lab/zone# curl -sv 'http://www.se-201-11.lab/search/reports?q=97&limit=uk#top'
+* Host www.se-201-11.lab:80 was resolved.
+* IPv6: (none)
+* IPv4: 10.53.0.80
+*   Trying 10.53.0.80:80...
+* Connected to www.se-201-11.lab (10.53.0.80) port 80
+> GET /search/reports?q=97&limit=uk HTTP/1.1
+> Host: www.se-201-11.lab
+> User-Agent: curl/8.5.0
+> Accept: */*
+> 
+server: web-a
+Host: www.se-201-11.lab
+request URI: /search/reports?q=97&limit=uk
+path: /search/reports
+query: q=97&limit=uk
+client: 10.53.1.1
+< HTTP/1.1 200 OK
+< Server: nginx/1.24.0 (Ubuntu)
+< Date: Fri, 20 Nov 2026 13:48:14 GMT
+< Content-Type: text/plain
+< Content-Length: 142
+< Connection: keep-alive
+< 
+{ [142 bytes data]
+* Connection #0 to host www.se-201-11.lab left intact
+
+root@ns-se-201-11:/lab/zone# curl -sv 'http://status.se-201-11.lab:80/reports/?q=%D0%BA%D0%B8%D1%97%D0%B2'
+* Host status.se-201-11.lab:80 was resolved.
+* IPv6: (none)
+* IPv4: 10.53.0.80
+*   Trying 10.53.0.80:80...
+* Connected to status.se-201-11.lab (10.53.0.80) port 80
+> GET /reports/?q=%D0%BA%D0%B8%D1%97%D0%B2 HTTP/1.1
+> Host: status.se-201-11.lab
+> User-Agent: curl/8.5.0
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< Server: nginx/1.24.0 (Ubuntu)
+< Date: Fri, 20 Nov 2026 13:48:14 GMT
+< Content-Type: text/plain
+< Content-Length: 159
+< Connection: keep-alive
+< 
+{ [159 bytes data]
+* Connection #0 to host status.se-201-11.lab left intact
+server: web-a
+Host: status.se-201-11.lab
+request URI: /reports/?q=%D0%BA%D0%B8%D1%97%D0%B2
+path: /reports/
+query: q=%D0%BA%D0%B8%D1%97%D0%B2
+client: 10.53.1.1
+
+root@ns-se-201-11:/lab/zone# curl -sv 'http://user:pass@lab.se-201-11.lab/search#section-2'
+* Host lab.se-201-11.lab:80 was resolved.
+* IPv6: (none)
+* IPv4: 10.53.0.81
+*   Trying 10.53.0.81:80...
+* Connected to lab.se-201-11.lab (10.53.0.81) port 80
+* Server auth using Basic with user 'user'
+> GET /search HTTP/1.1
+> Host: lab.se-201-11.lab
+> Authorization: Basic dXNlcjpwYXNz
+> User-Agent: curl/8.5.0
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< Server: nginx/1.24.0 (Ubuntu)
+< Date: Fri, 20 Nov 2026 13:48:14 GMT
+< Content-Type: text/plain
+< Content-Length: 99
+< Connection: keep-alive
+< 
+{ [99 bytes data]
+* Connection #0 to host lab.se-201-11.lab left intact
+server: web-b
+Host: lab.se-201-11.lab
+request URI: /search
+path: /search
+query: 
+client: 10.53.1.1
+
+root@ns-se-201-11:/lab/zone# echo 'dXNlcjpwYXNz' | base64 -d; echo
+user:pass
+
+root@ns-se-201-11:/lab/zone# curl -v --max-time 15 'https://www.se-201-11.lab:4443/search/../reports'
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Host www.se-201-11.lab:4443 was resolved.
+* IPv6: (none)
+* IPv4: 10.53.0.80
+*   Trying 10.53.0.80:4443...
+* connect to 10.53.0.80 port 4443 from 10.53.1.1 port 40568 failed: Connection refused
+* Failed to connect to www.se-201-11.lab port 4443 after 1 ms: Couldn't connect to server
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+* Closing connection
+curl: (7) Failed to connect to www.se-201-11.lab port 4443 after 1 ms: Couldn't connect to server
+
+root@ns-se-201-11:/lab/zone# curl -s 'http://www.se-201-11.lab/search/../reports'
+server: web-a
+Host: www.se-201-11.lab
+request URI: /reports
+path: /reports
+query: 
+client: 10.53.1.1
+
+root@ns-se-201-11:/lab/zone# curl -s --path-as-is 'http://www.se-201-11.lab/search/../reports'
+server: web-a
+Host: www.se-201-11.lab
+request URI: /search/../reports
+path: /reports
+query: 
+client: 10.53.1.1
+

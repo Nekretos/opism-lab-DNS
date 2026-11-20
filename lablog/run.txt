@@ -1,0 +1,886 @@
+root@ns-se-201-11:/lab/zone# dig -v
+DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu
+
+root@ns-se-201-11:/lab/zone# dig @10.53.0.2 ns.se-201-11.lab A +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.0.2 ns.se-201-11.lab A +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25273
+;; flags: qr; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 437e7751684f18be010000006b004f9a354cf205befb45df (good)
+;; QUESTION SECTION:
+;ns.se-201-11.lab.		IN	A
+
+;; AUTHORITY SECTION:
+lab.			172800	IN	NS	ns1.nic.lab.
+
+;; ADDITIONAL SECTION:
+ns1.nic.lab.		172800	IN	A	10.53.0.3
+
+;; Query time: 79 msec
+;; SERVER: 10.53.0.2#53(10.53.0.2) (UDP)
+;; WHEN: Fri Nov 20 13:48:10 UTC 2026
+;; MSG SIZE  rcvd: 117
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.0.3 ns.se-201-11.lab A +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.0.3 ns.se-201-11.lab A +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 43369
+;; flags: qr; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 1ff24b2c0ba1783b010000006b004f9b184144a58da84c0a (good)
+;; QUESTION SECTION:
+;ns.se-201-11.lab.		IN	A
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		3600	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	3600	IN	A	10.53.1.1
+
+;; Query time: 80 msec
+;; SERVER: 10.53.0.3#53(10.53.0.3) (UDP)
+;; WHEN: Fri Nov 20 13:48:11 UTC 2026
+;; MSG SIZE  rcvd: 103
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 ns.se-201-11.lab A +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 ns.se-201-11.lab A +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 9347
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 561ecadf63b426ce010000006b004f9b4e707167c2df8a96 (good)
+;; QUESTION SECTION:
+;ns.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:11 UTC 2026
+;; MSG SIZE  rcvd: 103
+
+
+root@ns-se-201-11:/lab/zone# dig ns.se-201-11.lab A +trace
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> ns.se-201-11.lab A +trace
+;; global options: +cmd
+.			86290	IN	NS	a.root-servers.net.
+;; Received 59 bytes from 10.53.0.53#53(10.53.0.53) in 1 ms
+
+lab.			172800	IN	NS	ns1.nic.lab.
+;; Received 117 bytes from 10.53.0.2#53(a.root-servers.net) in 80 ms
+
+se-201-11.lab.		3600	IN	NS	ns.se-201-11.lab.
+;; Received 103 bytes from 10.53.0.3#53(ns1.nic.lab) in 40 ms
+
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+;; Received 103 bytes from 10.53.1.1#53(ns.se-201-11.lab) in 1 ms
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.0.3 se-201-11.lab NS +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.0.3 se-201-11.lab NS +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 14887
+;; flags: qr; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: d61f2246462f5180010000006b004f9bf5c72fff67759ae3 (good)
+;; QUESTION SECTION:
+;se-201-11.lab.			IN	NS
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		3600	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	3600	IN	A	10.53.1.1
+
+;; Query time: 40 msec
+;; SERVER: 10.53.0.3#53(10.53.0.3) (UDP)
+;; WHEN: Fri Nov 20 13:48:11 UTC 2026
+;; MSG SIZE  rcvd: 103
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 se-201-11.lab NS +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 se-201-11.lab NS +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 46479
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: e7ea3965c6fd3762010000006b004f9cf860e2a02b770495 (good)
+;; QUESTION SECTION:
+;se-201-11.lab.			IN	NS
+
+;; ANSWER SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:12 UTC 2026
+;; MSG SIZE  rcvd: 103
+
+
+### zone-edit: додано записи з картки, serial +1
+; After every change: increase the serial, then run  zone-reload
+root@ns-se-201-11:/lab/zone# zone-reload
+zone se-201-11.lab/IN: loaded serial 2026112002
+OK
+zone reload queued
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 www.se-201-11.lab A +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 www.se-201-11.lab A +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 49379
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 3598df885495ce22010000006b004f9cf2ff6cd60b4e2b55 (good)
+;; QUESTION SECTION:
+;www.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+www.se-201-11.lab.	45	IN	A	10.53.0.80
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 1 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:12 UTC 2026
+;; MSG SIZE  rcvd: 123
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 status.se-201-11.lab CNAME +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 status.se-201-11.lab CNAME +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 65382
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 65d4425ab26e4ad2010000006b004f9c2cf32342083f7299 (good)
+;; QUESTION SECTION:
+;status.se-201-11.lab.		IN	CNAME
+
+;; ANSWER SECTION:
+status.se-201-11.lab.	45	IN	CNAME	www.se-201-11.lab.
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:12 UTC 2026
+;; MSG SIZE  rcvd: 128
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 mail.se-201-11.lab A +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 mail.se-201-11.lab A +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 27534
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: c76a86f7d2ad514e010000006b004f9cfcedb98fb28ebb94 (good)
+;; QUESTION SECTION:
+;mail.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+mail.se-201-11.lab.	45	IN	A	10.53.0.80
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:12 UTC 2026
+;; MSG SIZE  rcvd: 124
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 se-201-11.lab MX +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 se-201-11.lab MX +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 55960
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 7105a277a107dee1010000006b004f9c49b3ddea6e30cdbe (good)
+;; QUESTION SECTION:
+;se-201-11.lab.			IN	MX
+
+;; ANSWER SECTION:
+se-201-11.lab.		45	IN	MX	30 mail.se-201-11.lab.
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+mail.se-201-11.lab.	45	IN	A	10.53.0.80
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 1 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:12 UTC 2026
+;; MSG SIZE  rcvd: 140
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 se-201-11.lab TXT +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 se-201-11.lab TXT +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 37713
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 0e6a55ba4d1eb01b010000006b004f9ca0a13d42f01c79f4 (good)
+;; QUESTION SECTION:
+;se-201-11.lab.			IN	TXT
+
+;; ANSWER SECTION:
+se-201-11.lab.		45	IN	TXT	"lab-token=c4d4a729"
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 3 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:12 UTC 2026
+;; MSG SIZE  rcvd: 134
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 lab.se-201-11.lab A +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 lab.se-201-11.lab A +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 26411
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: f167229c98450bce010000006b004f9db211476897932ba6 (good)
+;; QUESTION SECTION:
+;lab.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+lab.se-201-11.lab.	25	IN	A	10.53.0.81
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:13 UTC 2026
+;; MSG SIZE  rcvd: 123
+
+
+### Порівняння резолвер / власний сервер
+root@ns-se-201-11:/lab/zone# dig status.se-201-11.lab
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> status.se-201-11.lab
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 8927
+;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;status.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+status.se-201-11.lab.	45	IN	CNAME	www.se-201-11.lab.
+www.se-201-11.lab.	45	IN	A	10.53.0.80
+
+;; Query time: 0 msec
+;; SERVER: 10.53.0.53#53(10.53.0.53) (UDP)
+;; WHEN: Fri Nov 20 13:48:13 UTC 2026
+;; MSG SIZE  rcvd: 83
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 status.se-201-11.lab +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 status.se-201-11.lab +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 11626
+;; flags: qr aa; QUERY: 1, ANSWER: 2, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 82e6888920547241010000006b004f9df20cfddd83e669e8 (good)
+;; QUESTION SECTION:
+;status.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+status.se-201-11.lab.	45	IN	CNAME	www.se-201-11.lab.
+www.se-201-11.lab.	45	IN	A	10.53.0.80
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:13 UTC 2026
+;; MSG SIZE  rcvd: 144
+
+
+root@ns-se-201-11:/lab/zone# dig se-201-11.lab MX
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> se-201-11.lab MX
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 14256
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;se-201-11.lab.			IN	MX
+
+;; ANSWER SECTION:
+se-201-11.lab.		45	IN	MX	30 mail.se-201-11.lab.
+
+;; Query time: 1 msec
+;; SERVER: 10.53.0.53#53(10.53.0.53) (UDP)
+;; WHEN: Fri Nov 20 13:48:13 UTC 2026
+;; MSG SIZE  rcvd: 63
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 se-201-11.lab MX +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 se-201-11.lab MX +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 57579
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 3
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: fb8a7368a63ffb0d010000006b004f9d41e6b32c0d9d8e1d (good)
+;; QUESTION SECTION:
+;se-201-11.lab.			IN	MX
+
+;; ANSWER SECTION:
+se-201-11.lab.		45	IN	MX	30 mail.se-201-11.lab.
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+mail.se-201-11.lab.	45	IN	A	10.53.0.80
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:13 UTC 2026
+;; MSG SIZE  rcvd: 140
+
+
+### Тимчасово додано '@ IN CNAME www'
+root@ns-se-201-11:/lab/zone# zone-check
+dns_master_load: /lab/zone/se-201-11.lab.zone:21: se-201-11.lab: CNAME and other data
+zone se-201-11.lab/IN: loading from master file /lab/zone/se-201-11.lab.zone failed: CNAME and other data
+zone se-201-11.lab/IN: not loaded due to errors.
+
+### Рядок видалено, перевірка:
+root@ns-se-201-11:/lab/zone# zone-check
+zone se-201-11.lab/IN: loaded serial 2026112002
+OK
+
+root@ns-se-201-11:/lab/zone# curl -sv 'http://www.se-201-11.lab/search/reports?q=97&limit=uk#top'
+* Host www.se-201-11.lab:80 was resolved.
+* IPv6: (none)
+* IPv4: 10.53.0.80
+*   Trying 10.53.0.80:80...
+* Connected to www.se-201-11.lab (10.53.0.80) port 80
+> GET /search/reports?q=97&limit=uk HTTP/1.1
+> Host: www.se-201-11.lab
+> User-Agent: curl/8.5.0
+> Accept: */*
+> 
+server: web-a
+Host: www.se-201-11.lab
+request URI: /search/reports?q=97&limit=uk
+path: /search/reports
+query: q=97&limit=uk
+client: 10.53.1.1
+< HTTP/1.1 200 OK
+< Server: nginx/1.24.0 (Ubuntu)
+< Date: Fri, 20 Nov 2026 13:48:14 GMT
+< Content-Type: text/plain
+< Content-Length: 142
+< Connection: keep-alive
+< 
+{ [142 bytes data]
+* Connection #0 to host www.se-201-11.lab left intact
+
+root@ns-se-201-11:/lab/zone# curl -sv 'http://status.se-201-11.lab:80/reports/?q=%D0%BA%D0%B8%D1%97%D0%B2'
+* Host status.se-201-11.lab:80 was resolved.
+* IPv6: (none)
+* IPv4: 10.53.0.80
+*   Trying 10.53.0.80:80...
+* Connected to status.se-201-11.lab (10.53.0.80) port 80
+> GET /reports/?q=%D0%BA%D0%B8%D1%97%D0%B2 HTTP/1.1
+> Host: status.se-201-11.lab
+> User-Agent: curl/8.5.0
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< Server: nginx/1.24.0 (Ubuntu)
+< Date: Fri, 20 Nov 2026 13:48:14 GMT
+< Content-Type: text/plain
+< Content-Length: 159
+< Connection: keep-alive
+< 
+{ [159 bytes data]
+* Connection #0 to host status.se-201-11.lab left intact
+server: web-a
+Host: status.se-201-11.lab
+request URI: /reports/?q=%D0%BA%D0%B8%D1%97%D0%B2
+path: /reports/
+query: q=%D0%BA%D0%B8%D1%97%D0%B2
+client: 10.53.1.1
+
+root@ns-se-201-11:/lab/zone# curl -sv 'http://user:pass@lab.se-201-11.lab/search#section-2'
+* Host lab.se-201-11.lab:80 was resolved.
+* IPv6: (none)
+* IPv4: 10.53.0.81
+*   Trying 10.53.0.81:80...
+* Connected to lab.se-201-11.lab (10.53.0.81) port 80
+* Server auth using Basic with user 'user'
+> GET /search HTTP/1.1
+> Host: lab.se-201-11.lab
+> Authorization: Basic dXNlcjpwYXNz
+> User-Agent: curl/8.5.0
+> Accept: */*
+> 
+< HTTP/1.1 200 OK
+< Server: nginx/1.24.0 (Ubuntu)
+< Date: Fri, 20 Nov 2026 13:48:14 GMT
+< Content-Type: text/plain
+< Content-Length: 99
+< Connection: keep-alive
+< 
+{ [99 bytes data]
+* Connection #0 to host lab.se-201-11.lab left intact
+server: web-b
+Host: lab.se-201-11.lab
+request URI: /search
+path: /search
+query: 
+client: 10.53.1.1
+
+root@ns-se-201-11:/lab/zone# echo 'dXNlcjpwYXNz' | base64 -d; echo
+user:pass
+
+root@ns-se-201-11:/lab/zone# curl -v --max-time 15 'https://www.se-201-11.lab:4443/search/../reports'
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0* Host www.se-201-11.lab:4443 was resolved.
+* IPv6: (none)
+* IPv4: 10.53.0.80
+*   Trying 10.53.0.80:4443...
+* connect to 10.53.0.80 port 4443 from 10.53.1.1 port 40568 failed: Connection refused
+* Failed to connect to www.se-201-11.lab port 4443 after 1 ms: Couldn't connect to server
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+* Closing connection
+curl: (7) Failed to connect to www.se-201-11.lab port 4443 after 1 ms: Couldn't connect to server
+
+root@ns-se-201-11:/lab/zone# curl -s 'http://www.se-201-11.lab/search/../reports'
+server: web-a
+Host: www.se-201-11.lab
+request URI: /reports
+path: /reports
+query: 
+client: 10.53.1.1
+
+root@ns-se-201-11:/lab/zone# curl -s --path-as-is 'http://www.se-201-11.lab/search/../reports'
+server: web-a
+Host: www.se-201-11.lab
+request URI: /search/../reports
+path: /reports
+query: 
+client: 10.53.1.1
+
+root@ns-se-201-11:/lab/zone# dig www.se-201-11.lab +noall +answer
+www.se-201-11.lab.	43	IN	A	10.53.0.80
+
+root@ns-se-201-11:/lab/zone# dig www.se-201-11.lab +noall +answer
+www.se-201-11.lab.	38	IN	A	10.53.0.80
+
+### Крок 3: zone-edit www -> 10.53.0.81, serial +1, БЕЗ zone-reload
+www            IN A      10.53.0.81
+; After every change: increase the serial, then run  zone-reload
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 www.se-201-11.lab +norec +short
+10.53.0.80
+
+### Крок 4
+root@ns-se-201-11:/lab/zone# date +%T; dig www.se-201-11.lab +noall +answer
+13:48:20
+www.se-201-11.lab.	38	IN	A	10.53.0.80
+### Крок 5
+root@ns-se-201-11:/lab/zone# zone-reload; date +%T
+zone se-201-11.lab/IN: loaded serial 2026112003
+OK
+zone reload queued
+13:48:20
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 www.se-201-11.lab +norec +short
+10.53.0.81
+
+### Крок 7: цикл спостереження
+root@ns-se-201-11:/lab/zone# while true; do echo "$(date +%T) $(dig +short www.se-201-11.lab)"; sleep 2; done
+13:48:21 10.53.0.80
+13:48:23 10.53.0.80
+13:48:25 10.53.0.80
+13:48:27 10.53.0.80
+13:48:29 10.53.0.80
+13:48:31 10.53.0.80
+13:48:33 10.53.0.80
+13:48:35 10.53.0.80
+13:48:37 10.53.0.80
+13:48:39 10.53.0.80
+13:48:41 10.53.0.80
+13:48:43 10.53.0.80
+13:48:45 10.53.0.80
+13:48:47 10.53.0.80
+13:48:49 10.53.0.80
+13:48:51 10.53.0.80
+13:48:53 10.53.0.80
+13:48:55 10.53.0.80
+13:48:57 10.53.0.80
+13:48:59 10.53.0.81
+
+root@ns-se-201-11:/lab/zone# curl http://www.se-201-11.lab/
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0server: web-b
+Host: www.se-201-11.lab
+request URI: /
+path: /
+query: 
+client: 10.53.1.1
+100    87  100    87    0     0  66462      0 --:--:-- --:--:-- --:--:-- 87000
+
+### Крок 2: zone-edit додано 'new-kljby IN A 10.53.0.80', serial +1, БЕЗ zone-reload
+; After every change: increase the serial, then run  zone-reload
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 new-kljby.se-201-11.lab +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 new-kljby.se-201-11.lab +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 29364
+;; flags: qr aa; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 6915550ab2d2bf07010000006b004fcb6fb71062610b84cb (good)
+;; QUESTION SECTION:
+;new-kljby.se-201-11.lab.	IN	A
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		15	IN	SOA	ns.se-201-11.lab. admin.se-201-11.lab. 2026112003 3600 600 86400 90
+
+;; Query time: 1 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:59 UTC 2026
+;; MSG SIZE  rcvd: 125
+
+
+### Крок 3
+root@ns-se-201-11:/lab/zone# date +%T; dig new-kljby.se-201-11.lab
+13:49:00
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> new-kljby.se-201-11.lab
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 13225
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;new-kljby.se-201-11.lab.	IN	A
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		14	IN	SOA	ns.se-201-11.lab. admin.se-201-11.lab. 2026112003 3600 600 86400 90
+
+;; Query time: 0 msec
+;; SERVER: 10.53.0.53#53(10.53.0.53) (UDP)
+;; WHEN: Fri Nov 20 13:49:00 UTC 2026
+;; MSG SIZE  rcvd: 97
+
+
+### Крок 4
+root@ns-se-201-11:/lab/zone# zone-reload; date +%T
+zone se-201-11.lab/IN: loaded serial 2026112004
+OK
+zone reload queued
+13:49:00
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 new-kljby.se-201-11.lab +norec +short
+10.53.0.80
+
+### Крок 6
+root@ns-se-201-11:/lab/zone# while true; do echo "$(date +%T) $(dig new-kljby.se-201-11.lab +noall +comments | grep -o 'status: [A-Z]*')"; sleep 2; done
+13:49:00 status: NXDOMAIN
+13:49:02 status: NXDOMAIN
+13:49:04 status: NXDOMAIN
+13:49:06 status: NXDOMAIN
+13:49:08 status: NXDOMAIN
+13:49:10 status: NXDOMAIN
+13:49:12 status: NXDOMAIN
+13:49:14 status: NXDOMAIN
+13:49:16 status: NOERROR
+
+root@ns-se-201-11:/lab/zone# A=y$RANDOM.se-201-11.lab; echo $A; dig $A | grep "Query time"; dig $A | grep "Query time"
+y6725.se-201-11.lab
+;; Query time: 1 msec
+;; Query time: 0 msec
+
+root@ns-se-201-11:/lab/zone# B=x$RANDOM.lab; echo $B; dig $B | grep "Query time"; dig $B | grep "Query time"
+x7939.lab
+;; Query time: 40 msec
+;; Query time: 1 msec
+
+root@ns-se-201-11:/lab/zone# C=x$RANDOM.zz$RANDOM; echo $C; dig $C | grep "Query time"; dig $C | grep "Query time"
+x20713.zz31727
+;; Query time: 80 msec
+;; Query time: 0 msec
+
+### Рядок D
+@codespace:/workspaces/opism-lab-DNS$ date +%T; docker compose -f stand/compose.yaml restart resolver-a
+13:49:17
+ Container dnslab-resolver-a-1 Restarting 
+ Container dnslab-resolver-a-1 Started 
+
+root@ns-se-201-11:/lab/zone# date +%T; dig www.se-201-11.lab | grep 'Query time'; dig www.se-201-11.lab | grep 'Query time'
+13:49:22
+;; Query time: 402 msec
+;; Query time: 1 msec
+
+### Журнали
+@codespace:/workspaces/opism-lab-DNS$ docker compose -f stand/compose.yaml exec -T root tail -n 25 /var/log/named/queries.log
+20-Nov-2026 13:46:21.471 client @0x7128f806ac88 10.53.0.53#15209 (.): query: . IN NS -E(0)DC (10.53.0.2)
+20-Nov-2026 13:46:21.552 client @0x7128f00051f8 10.53.0.53#31987 (a.root-servers.net): query: a.root-servers.net IN A -E(0)DC (10.53.0.2)
+20-Nov-2026 13:46:21.632 client @0x7128f00051f8 10.53.0.53#23794 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DC (10.53.0.2)
+20-Nov-2026 13:46:22.107 client @0x7128f00051f8 10.53.0.54#16695 (.): query: . IN NS -E(0)DC (10.53.0.2)
+20-Nov-2026 13:46:22.188 client @0x7128f806ac88 10.53.0.54#36033 (a.root-servers.net): query: a.root-servers.net IN A -E(0)DC (10.53.0.2)
+20-Nov-2026 13:46:22.269 client @0x7128f806ac88 10.53.0.54#25349 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DC (10.53.0.2)
+20-Nov-2026 13:48:10.883 client @0x7128f00051f8 10.53.1.1#43193 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)K (10.53.0.2)
+20-Nov-2026 13:48:11.480 client @0x7128f806ac88 10.53.1.1#39071 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DK (10.53.0.2)
+20-Nov-2026 13:49:17.158 client @0x7128f00051f8 10.53.0.53#52001 (x20713.zz31727): query: x20713.zz31727 IN A -E(0)DC (10.53.0.2)
+20-Nov-2026 13:49:22.877 client @0x7128f806ac88 10.53.0.53#20644 (.): query: . IN NS -E(0)DC (10.53.0.2)
+20-Nov-2026 13:49:22.957 client @0x7128f00051f8 10.53.0.53#32826 (a.root-servers.net): query: a.root-servers.net IN A -E(0)DC (10.53.0.2)
+20-Nov-2026 13:49:23.038 client @0x7128f00051f8 10.53.0.53#15386 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)DC (10.53.0.2)
+
+@codespace:/workspaces/opism-lab-DNS$ docker compose -f stand/compose.yaml exec -T tld tail -n 25 /var/log/named/queries.log
+20-Nov-2026 13:46:21.753 client @0x770b900060c8 10.53.0.53#30781 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DC (10.53.0.3)
+20-Nov-2026 13:46:22.389 client @0x770b9806ac88 10.53.0.54#42920 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DC (10.53.0.3)
+20-Nov-2026 13:48:11.145 client @0x770b9806ac88 10.53.1.1#60164 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)K (10.53.0.3)
+20-Nov-2026 13:48:11.561 client @0x770b9806ac88 10.53.0.53#14755 (ns1.nic.lab): query: ns1.nic.lab IN A -E(0)DC (10.53.0.3)
+20-Nov-2026 13:48:11.601 client @0x770b900060c8 10.53.1.1#45508 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DK (10.53.0.3)
+20-Nov-2026 13:48:11.642 client @0x770b900060c8 10.53.0.53#22019 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DC (10.53.0.3)
+20-Nov-2026 13:48:11.835 client @0x770b9806ac88 10.53.1.1#58894 (se-201-11.lab): query: se-201-11.lab IN NS -E(0)K (10.53.0.3)
+20-Nov-2026 13:48:59.547 client @0x770b900060c8 10.53.0.53#60077 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)DC (10.53.0.3)
+20-Nov-2026 13:49:16.964 client @0x770b9806ac88 10.53.0.53#17546 (x7939.lab): query: x7939.lab IN A -E(0)DC (10.53.0.3)
+20-Nov-2026 13:49:23.158 client @0x770b900060c8 10.53.0.53#13225 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)DC (10.53.0.3)
+
+root@ns-se-201-11:/lab/zone# querylog
+20-Nov-2026 13:48:12.033 client @0x7fb384004488 10.53.1.1#35921 (se-201-11.lab): query: se-201-11.lab IN NS -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:12.386 client @0x7fb38c06ac68 10.53.1.1#53586 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:12.539 client @0x7fb38c06ac68 10.53.1.1#54295 (status.se-201-11.lab): query: status.se-201-11.lab IN CNAME -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:12.689 client @0x7fb38c06ac68 10.53.1.1#56980 (mail.se-201-11.lab): query: mail.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:12.829 client @0x7fb384004488 10.53.1.1#51265 (se-201-11.lab): query: se-201-11.lab IN MX -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:12.974 client @0x7fb38c06ac68 10.53.1.1#60728 (se-201-11.lab): query: se-201-11.lab IN TXT -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:13.140 client @0x7fb384004488 10.53.1.1#56612 (lab.se-201-11.lab): query: lab.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:13.285 client @0x7fb38c06ac68 10.53.0.53#6267 (status.se-201-11.lab): query: status.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:13.286 client @0x7fb384004488 10.53.0.53#37003 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:13.434 client @0x7fb384004488 10.53.1.1#50317 (status.se-201-11.lab): query: status.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:13.567 client @0x7fb384004488 10.53.0.53#52261 (se-201-11.lab): query: se-201-11.lab IN MX -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:13.738 client @0x7fb384004488 10.53.1.1#52509 (se-201-11.lab): query: se-201-11.lab IN MX -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:14.201 client @0x7fb38c06ac68 10.53.0.53#34118 (www.se-201-11.lab): query: www.se-201-11.lab IN AAAA -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:14.487 client @0x7fb384004488 10.53.0.53#32083 (lab.se-201-11.lab): query: lab.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:14.487 client @0x7fb38c06ac68 10.53.0.53#61661 (lab.se-201-11.lab): query: lab.se-201-11.lab IN AAAA -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:20.653 client @0x7fb384004488 10.53.1.1#36469 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:21.137 client @0x7fb38c06ac68 10.53.1.1#45255 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:59.588 client @0x7fb38c06ac68 10.53.0.53#49730 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:59.740 client @0x7fb384004488 10.53.0.53#48304 (www.se-201-11.lab): query: www.se-201-11.lab IN AAAA -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:59.898 client @0x7fb38c06ac68 10.53.1.1#45783 (new-kljby.se-201-11.lab): query: new-kljby.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:49:00.046 client @0x7fb38c06ac68 10.53.0.53#51805 (new-kljby.se-201-11.lab): query: new-kljby.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:49:00.328 client @0x7fb384004488 10.53.1.1#59369 (new-kljby.se-201-11.lab): query: new-kljby.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:49:16.634 client @0x7fb384004488 10.53.0.53#55569 (new-kljby.se-201-11.lab): query: new-kljby.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:49:16.816 client @0x7fb38c06ac68 10.53.0.53#28945 (y6725.se-201-11.lab): query: y6725.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:49:23.199 client @0x7fb38c06ac68 10.53.0.53#37406 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+
+### curl time_namelookup після повторного перезапуску
+@codespace:/workspaces/opism-lab-DNS$ docker compose -f stand/compose.yaml restart resolver-a
+ Container dnslab-resolver-a-1 Restarting 
+ Container dnslab-resolver-a-1 Started 
+
+root@ns-se-201-11:/lab/zone# curl -so /dev/null -w '%{time_namelookup}\n' http://www.se-201-11.lab/
+0.403604
+
+root@ns-se-201-11:/lab/zone# dig @10.53.0.53 lab.se-201-11.lab +noall +answer
+lab.se-201-11.lab.	25	IN	A	10.53.0.81
+
+root@ns-se-201-11:/lab/zone# dig @10.53.0.54 lab.se-201-11.lab +noall +answer
+lab.se-201-11.lab.	25	IN	A	10.53.0.81
+
+root@ns-se-201-11:/lab/zone# named-stop; date +%T
+13:49:30
+
+root@ns-se-201-11:/lab/zone# sleep 35; date +%T
+13:50:05
+
+root@ns-se-201-11:/lab/zone# time dig @10.53.0.53 lab.se-201-11.lab +tries=1 +timeout=30
+;; communications error to 10.53.0.53#53: timed out
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.0.53 lab.se-201-11.lab +tries=1 +timeout=30
+; (1 server found)
+;; global options: +cmd
+;; no servers could be reached
+
+real	0m30.050s
+user	0m0.003s
+sys	0m0.008s
+
+root@ns-se-201-11:/lab/zone# time dig @10.53.0.53 lab.se-201-11.lab +tries=1 +timeout=30
+;; communications error to 10.53.0.53#53: timed out
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.0.53 lab.se-201-11.lab +tries=1 +timeout=30
+; (1 server found)
+;; global options: +cmd
+;; no servers could be reached
+
+real	0m30.053s
+user	0m0.006s
+sys	0m0.006s
+
+root@ns-se-201-11:/lab/zone# time dig @10.53.0.54 lab.se-201-11.lab +tries=1 +timeout=30
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.0.54 lab.se-201-11.lab +tries=1 +timeout=30
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 4769
+;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;lab.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+lab.se-201-11.lab.	30	IN	A	10.53.0.81
+
+;; Query time: 1800 msec
+;; SERVER: 10.53.0.54#53(10.53.0.54) (UDP)
+;; WHEN: Fri Nov 20 13:51:07 UTC 2026
+;; MSG SIZE  rcvd: 62
+
+
+real	0m1.823s
+user	0m0.006s
+sys	0m0.006s
+
+root@ns-se-201-11:/lab/zone# named-start; date +%T
+13:51:07
+
+root@ns-se-201-11:/lab/zone# while true; do echo "$(date +%T) $(dig @10.53.0.53 lab.se-201-11.lab +short +tries=1 +timeout=3)"; sleep 2; done
+13:51:07 
+13:51:09 
+13:51:11 
+13:51:13 
+13:51:15 
+13:51:17 
+13:51:19 
+13:51:21 
+13:51:24 
+13:51:26 
+13:51:28 
+13:51:30 
+13:51:32 
+13:51:34 
+13:51:36 
+13:51:38 10.53.0.81
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 se-201-11.lab SOA +norec +short
+ns.se-201-11.lab. admin.se-201-11.lab. 2026112004 3600 600 86400 90
+
+ALL_DONE

@@ -1,0 +1,60 @@
+root@ns-se-201-11:/lab/zone# dig www.se-201-11.lab +noall +answer
+www.se-201-11.lab.	43	IN	A	10.53.0.80
+
+root@ns-se-201-11:/lab/zone# dig www.se-201-11.lab +noall +answer
+www.se-201-11.lab.	38	IN	A	10.53.0.80
+
+### Крок 3: zone-edit www -> 10.53.0.81, serial +1, БЕЗ zone-reload
+www            IN A      10.53.0.81
+; After every change: increase the serial, then run  zone-reload
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 www.se-201-11.lab +norec +short
+10.53.0.80
+
+### Крок 4
+root@ns-se-201-11:/lab/zone# date +%T; dig www.se-201-11.lab +noall +answer
+13:48:20
+www.se-201-11.lab.	38	IN	A	10.53.0.80
+### Крок 5
+root@ns-se-201-11:/lab/zone# zone-reload; date +%T
+zone se-201-11.lab/IN: loaded serial 2026112003
+OK
+zone reload queued
+13:48:20
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 www.se-201-11.lab +norec +short
+10.53.0.81
+
+### Крок 7: цикл спостереження
+root@ns-se-201-11:/lab/zone# while true; do echo "$(date +%T) $(dig +short www.se-201-11.lab)"; sleep 2; done
+13:48:21 10.53.0.80
+13:48:23 10.53.0.80
+13:48:25 10.53.0.80
+13:48:27 10.53.0.80
+13:48:29 10.53.0.80
+13:48:31 10.53.0.80
+13:48:33 10.53.0.80
+13:48:35 10.53.0.80
+13:48:37 10.53.0.80
+13:48:39 10.53.0.80
+13:48:41 10.53.0.80
+13:48:43 10.53.0.80
+13:48:45 10.53.0.80
+13:48:47 10.53.0.80
+13:48:49 10.53.0.80
+13:48:51 10.53.0.80
+13:48:53 10.53.0.80
+13:48:55 10.53.0.80
+13:48:57 10.53.0.80
+13:48:59 10.53.0.81
+
+root@ns-se-201-11:/lab/zone# curl http://www.se-201-11.lab/
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0server: web-b
+Host: www.se-201-11.lab
+request URI: /
+path: /
+query: 
+client: 10.53.1.1
+100    87  100    87    0     0  66462      0 --:--:-- --:--:-- --:--:-- 87000
+

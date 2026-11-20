@@ -1,0 +1,156 @@
+root@ns-se-201-11:/lab/zone# dig -v
+DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu
+
+root@ns-se-201-11:/lab/zone# dig @10.53.0.2 ns.se-201-11.lab A +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.0.2 ns.se-201-11.lab A +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 25273
+;; flags: qr; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 437e7751684f18be010000006b004f9a354cf205befb45df (good)
+;; QUESTION SECTION:
+;ns.se-201-11.lab.		IN	A
+
+;; AUTHORITY SECTION:
+lab.			172800	IN	NS	ns1.nic.lab.
+
+;; ADDITIONAL SECTION:
+ns1.nic.lab.		172800	IN	A	10.53.0.3
+
+;; Query time: 79 msec
+;; SERVER: 10.53.0.2#53(10.53.0.2) (UDP)
+;; WHEN: Fri Nov 20 13:48:10 UTC 2026
+;; MSG SIZE  rcvd: 117
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.0.3 ns.se-201-11.lab A +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.0.3 ns.se-201-11.lab A +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 43369
+;; flags: qr; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 1ff24b2c0ba1783b010000006b004f9b184144a58da84c0a (good)
+;; QUESTION SECTION:
+;ns.se-201-11.lab.		IN	A
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		3600	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	3600	IN	A	10.53.1.1
+
+;; Query time: 80 msec
+;; SERVER: 10.53.0.3#53(10.53.0.3) (UDP)
+;; WHEN: Fri Nov 20 13:48:11 UTC 2026
+;; MSG SIZE  rcvd: 103
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 ns.se-201-11.lab A +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 ns.se-201-11.lab A +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 9347
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 561ecadf63b426ce010000006b004f9b4e707167c2df8a96 (good)
+;; QUESTION SECTION:
+;ns.se-201-11.lab.		IN	A
+
+;; ANSWER SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:11 UTC 2026
+;; MSG SIZE  rcvd: 103
+
+
+root@ns-se-201-11:/lab/zone# dig ns.se-201-11.lab A +trace
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> ns.se-201-11.lab A +trace
+;; global options: +cmd
+.			86290	IN	NS	a.root-servers.net.
+;; Received 59 bytes from 10.53.0.53#53(10.53.0.53) in 1 ms
+
+lab.			172800	IN	NS	ns1.nic.lab.
+;; Received 117 bytes from 10.53.0.2#53(a.root-servers.net) in 80 ms
+
+se-201-11.lab.		3600	IN	NS	ns.se-201-11.lab.
+;; Received 103 bytes from 10.53.0.3#53(ns1.nic.lab) in 40 ms
+
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+;; Received 103 bytes from 10.53.1.1#53(ns.se-201-11.lab) in 1 ms
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.0.3 se-201-11.lab NS +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.0.3 se-201-11.lab NS +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 14887
+;; flags: qr; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: d61f2246462f5180010000006b004f9bf5c72fff67759ae3 (good)
+;; QUESTION SECTION:
+;se-201-11.lab.			IN	NS
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		3600	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	3600	IN	A	10.53.1.1
+
+;; Query time: 40 msec
+;; SERVER: 10.53.0.3#53(10.53.0.3) (UDP)
+;; WHEN: Fri Nov 20 13:48:11 UTC 2026
+;; MSG SIZE  rcvd: 103
+
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 se-201-11.lab NS +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 se-201-11.lab NS +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 46479
+;; flags: qr aa; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 2
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: e7ea3965c6fd3762010000006b004f9cf860e2a02b770495 (good)
+;; QUESTION SECTION:
+;se-201-11.lab.			IN	NS
+
+;; ANSWER SECTION:
+se-201-11.lab.		45	IN	NS	ns.se-201-11.lab.
+
+;; ADDITIONAL SECTION:
+ns.se-201-11.lab.	45	IN	A	10.53.1.1
+
+;; Query time: 0 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:12 UTC 2026
+;; MSG SIZE  rcvd: 103
+
+

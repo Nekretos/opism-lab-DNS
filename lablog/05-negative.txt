@@ -1,0 +1,72 @@
+### Крок 2: zone-edit додано 'new-kljby IN A 10.53.0.80', serial +1, БЕЗ zone-reload
+; After every change: increase the serial, then run  zone-reload
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 new-kljby.se-201-11.lab +norec
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> @10.53.1.1 new-kljby.se-201-11.lab +norec
+; (1 server found)
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 29364
+;; flags: qr aa; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+; COOKIE: 6915550ab2d2bf07010000006b004fcb6fb71062610b84cb (good)
+;; QUESTION SECTION:
+;new-kljby.se-201-11.lab.	IN	A
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		15	IN	SOA	ns.se-201-11.lab. admin.se-201-11.lab. 2026112003 3600 600 86400 90
+
+;; Query time: 1 msec
+;; SERVER: 10.53.1.1#53(10.53.1.1) (UDP)
+;; WHEN: Fri Nov 20 13:48:59 UTC 2026
+;; MSG SIZE  rcvd: 125
+
+
+### Крок 3
+root@ns-se-201-11:/lab/zone# date +%T; dig new-kljby.se-201-11.lab
+13:49:00
+
+; <<>> DiG 9.18.39-0ubuntu0.24.04.9-Ubuntu <<>> new-kljby.se-201-11.lab
+;; global options: +cmd
+;; Got answer:
+;; ->>HEADER<<- opcode: QUERY, status: NXDOMAIN, id: 13225
+;; flags: qr rd ra; QUERY: 1, ANSWER: 0, AUTHORITY: 1, ADDITIONAL: 1
+
+;; OPT PSEUDOSECTION:
+; EDNS: version: 0, flags:; udp: 1232
+;; QUESTION SECTION:
+;new-kljby.se-201-11.lab.	IN	A
+
+;; AUTHORITY SECTION:
+se-201-11.lab.		14	IN	SOA	ns.se-201-11.lab. admin.se-201-11.lab. 2026112003 3600 600 86400 90
+
+;; Query time: 0 msec
+;; SERVER: 10.53.0.53#53(10.53.0.53) (UDP)
+;; WHEN: Fri Nov 20 13:49:00 UTC 2026
+;; MSG SIZE  rcvd: 97
+
+
+### Крок 4
+root@ns-se-201-11:/lab/zone# zone-reload; date +%T
+zone se-201-11.lab/IN: loaded serial 2026112004
+OK
+zone reload queued
+13:49:00
+
+root@ns-se-201-11:/lab/zone# dig @10.53.1.1 new-kljby.se-201-11.lab +norec +short
+10.53.0.80
+
+### Крок 6
+root@ns-se-201-11:/lab/zone# while true; do echo "$(date +%T) $(dig new-kljby.se-201-11.lab +noall +comments | grep -o 'status: [A-Z]*')"; sleep 2; done
+13:49:00 status: NXDOMAIN
+13:49:02 status: NXDOMAIN
+13:49:04 status: NXDOMAIN
+13:49:06 status: NXDOMAIN
+13:49:08 status: NXDOMAIN
+13:49:10 status: NXDOMAIN
+13:49:12 status: NXDOMAIN
+13:49:14 status: NXDOMAIN
+13:49:16 status: NOERROR
+

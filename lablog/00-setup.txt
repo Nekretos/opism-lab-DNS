@@ -1,0 +1,38 @@
+
+[notice] A new release of pip is available: 26.2.2 -> 26.3
+[notice] To update, run: python3 -m pip install --upgrade pip
+sha256:faaeab8748e2a1a7009bd47fba2eb9d470a50ff36fdb7d54029ea5f7e1fdc9b5
+student stand for se-201-11 in stand/; card: stand/cards/se-201-11.md
+ Network dnslab_lab Creating 
+ Network dnslab_lab Creating 
+ Network dnslab_lab Created 
+ Network dnslab_lab Created 
+ Container dnslab-web-b-1 Creating 
+ Container dnslab-tld-1 Creating 
+ Container dnslab-resolver-b-1 Creating 
+ Container dnslab-resolver-a-1 Creating 
+ Container dnslab-root-1 Creating 
+ Container dnslab-web-a-1 Creating 
+ Container dnslab-se-201-11-1 Creating 
+ Container dnslab-root-1 Created 
+ Container dnslab-se-201-11-1 Created 
+ Container dnslab-web-a-1 Created 
+ Container dnslab-web-b-1 Created 
+ Container dnslab-resolver-a-1 Created 
+ Container dnslab-tld-1 Created 
+ Container dnslab-resolver-b-1 Created 
+ Container dnslab-root-1 Starting 
+ Container dnslab-se-201-11-1 Starting 
+ Container dnslab-resolver-a-1 Starting 
+ Container dnslab-tld-1 Starting 
+ Container dnslab-resolver-b-1 Starting 
+ Container dnslab-web-a-1 Starting 
+ Container dnslab-web-b-1 Starting 
+ Container dnslab-root-1 Started 
+ Container dnslab-se-201-11-1 Started 
+ Container dnslab-resolver-a-1 Started 
+ Container dnslab-tld-1 Started 
+ Container dnslab-resolver-b-1 Started 
+ Container dnslab-web-a-1 Started 
+ Container dnslab-web-b-1 Started 
+OK   se-201-11  auth_soa=yes resolver-a=['10.53.1.1'] resolver-b=['10.53.1.1']

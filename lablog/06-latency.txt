@@ -1,0 +1,88 @@
+root@ns-se-201-11:/lab/zone# A=y$RANDOM.se-201-11.lab; echo $A; dig $A | grep "Query time"; dig $A | grep "Query time"
+y6725.se-201-11.lab
+;; Query time: 1 msec
+;; Query time: 0 msec
+
+root@ns-se-201-11:/lab/zone# B=x$RANDOM.lab; echo $B; dig $B | grep "Query time"; dig $B | grep "Query time"
+x7939.lab
+;; Query time: 40 msec
+;; Query time: 1 msec
+
+root@ns-se-201-11:/lab/zone# C=x$RANDOM.zz$RANDOM; echo $C; dig $C | grep "Query time"; dig $C | grep "Query time"
+x20713.zz31727
+;; Query time: 80 msec
+;; Query time: 0 msec
+
+### Рядок D
+@codespace:/workspaces/opism-lab-DNS$ date +%T; docker compose -f stand/compose.yaml restart resolver-a
+13:49:17
+ Container dnslab-resolver-a-1 Restarting 
+ Container dnslab-resolver-a-1 Started 
+
+root@ns-se-201-11:/lab/zone# date +%T; dig www.se-201-11.lab | grep 'Query time'; dig www.se-201-11.lab | grep 'Query time'
+13:49:22
+;; Query time: 402 msec
+;; Query time: 1 msec
+
+### Журнали
+@codespace:/workspaces/opism-lab-DNS$ docker compose -f stand/compose.yaml exec -T root tail -n 25 /var/log/named/queries.log
+20-Nov-2026 13:46:21.471 client @0x7128f806ac88 10.53.0.53#15209 (.): query: . IN NS -E(0)DC (10.53.0.2)
+20-Nov-2026 13:46:21.552 client @0x7128f00051f8 10.53.0.53#31987 (a.root-servers.net): query: a.root-servers.net IN A -E(0)DC (10.53.0.2)
+20-Nov-2026 13:46:21.632 client @0x7128f00051f8 10.53.0.53#23794 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DC (10.53.0.2)
+20-Nov-2026 13:46:22.107 client @0x7128f00051f8 10.53.0.54#16695 (.): query: . IN NS -E(0)DC (10.53.0.2)
+20-Nov-2026 13:46:22.188 client @0x7128f806ac88 10.53.0.54#36033 (a.root-servers.net): query: a.root-servers.net IN A -E(0)DC (10.53.0.2)
+20-Nov-2026 13:46:22.269 client @0x7128f806ac88 10.53.0.54#25349 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DC (10.53.0.2)
+20-Nov-2026 13:48:10.883 client @0x7128f00051f8 10.53.1.1#43193 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)K (10.53.0.2)
+20-Nov-2026 13:48:11.480 client @0x7128f806ac88 10.53.1.1#39071 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DK (10.53.0.2)
+20-Nov-2026 13:49:17.158 client @0x7128f00051f8 10.53.0.53#52001 (x20713.zz31727): query: x20713.zz31727 IN A -E(0)DC (10.53.0.2)
+20-Nov-2026 13:49:22.877 client @0x7128f806ac88 10.53.0.53#20644 (.): query: . IN NS -E(0)DC (10.53.0.2)
+20-Nov-2026 13:49:22.957 client @0x7128f00051f8 10.53.0.53#32826 (a.root-servers.net): query: a.root-servers.net IN A -E(0)DC (10.53.0.2)
+20-Nov-2026 13:49:23.038 client @0x7128f00051f8 10.53.0.53#15386 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)DC (10.53.0.2)
+
+@codespace:/workspaces/opism-lab-DNS$ docker compose -f stand/compose.yaml exec -T tld tail -n 25 /var/log/named/queries.log
+20-Nov-2026 13:46:21.753 client @0x770b900060c8 10.53.0.53#30781 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DC (10.53.0.3)
+20-Nov-2026 13:46:22.389 client @0x770b9806ac88 10.53.0.54#42920 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DC (10.53.0.3)
+20-Nov-2026 13:48:11.145 client @0x770b9806ac88 10.53.1.1#60164 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)K (10.53.0.3)
+20-Nov-2026 13:48:11.561 client @0x770b9806ac88 10.53.0.53#14755 (ns1.nic.lab): query: ns1.nic.lab IN A -E(0)DC (10.53.0.3)
+20-Nov-2026 13:48:11.601 client @0x770b900060c8 10.53.1.1#45508 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DK (10.53.0.3)
+20-Nov-2026 13:48:11.642 client @0x770b900060c8 10.53.0.53#22019 (ns.se-201-11.lab): query: ns.se-201-11.lab IN A -E(0)DC (10.53.0.3)
+20-Nov-2026 13:48:11.835 client @0x770b9806ac88 10.53.1.1#58894 (se-201-11.lab): query: se-201-11.lab IN NS -E(0)K (10.53.0.3)
+20-Nov-2026 13:48:59.547 client @0x770b900060c8 10.53.0.53#60077 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)DC (10.53.0.3)
+20-Nov-2026 13:49:16.964 client @0x770b9806ac88 10.53.0.53#17546 (x7939.lab): query: x7939.lab IN A -E(0)DC (10.53.0.3)
+20-Nov-2026 13:49:23.158 client @0x770b900060c8 10.53.0.53#13225 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)DC (10.53.0.3)
+
+root@ns-se-201-11:/lab/zone# querylog
+20-Nov-2026 13:48:12.033 client @0x7fb384004488 10.53.1.1#35921 (se-201-11.lab): query: se-201-11.lab IN NS -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:12.386 client @0x7fb38c06ac68 10.53.1.1#53586 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:12.539 client @0x7fb38c06ac68 10.53.1.1#54295 (status.se-201-11.lab): query: status.se-201-11.lab IN CNAME -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:12.689 client @0x7fb38c06ac68 10.53.1.1#56980 (mail.se-201-11.lab): query: mail.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:12.829 client @0x7fb384004488 10.53.1.1#51265 (se-201-11.lab): query: se-201-11.lab IN MX -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:12.974 client @0x7fb38c06ac68 10.53.1.1#60728 (se-201-11.lab): query: se-201-11.lab IN TXT -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:13.140 client @0x7fb384004488 10.53.1.1#56612 (lab.se-201-11.lab): query: lab.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:13.285 client @0x7fb38c06ac68 10.53.0.53#6267 (status.se-201-11.lab): query: status.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:13.286 client @0x7fb384004488 10.53.0.53#37003 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:13.434 client @0x7fb384004488 10.53.1.1#50317 (status.se-201-11.lab): query: status.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:13.567 client @0x7fb384004488 10.53.0.53#52261 (se-201-11.lab): query: se-201-11.lab IN MX -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:13.738 client @0x7fb384004488 10.53.1.1#52509 (se-201-11.lab): query: se-201-11.lab IN MX -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:14.201 client @0x7fb38c06ac68 10.53.0.53#34118 (www.se-201-11.lab): query: www.se-201-11.lab IN AAAA -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:14.487 client @0x7fb384004488 10.53.0.53#32083 (lab.se-201-11.lab): query: lab.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:14.487 client @0x7fb38c06ac68 10.53.0.53#61661 (lab.se-201-11.lab): query: lab.se-201-11.lab IN AAAA -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:20.653 client @0x7fb384004488 10.53.1.1#36469 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:21.137 client @0x7fb38c06ac68 10.53.1.1#45255 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:48:59.588 client @0x7fb38c06ac68 10.53.0.53#49730 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:59.740 client @0x7fb384004488 10.53.0.53#48304 (www.se-201-11.lab): query: www.se-201-11.lab IN AAAA -E(0)DC (10.53.1.1)
+20-Nov-2026 13:48:59.898 client @0x7fb38c06ac68 10.53.1.1#45783 (new-kljby.se-201-11.lab): query: new-kljby.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:49:00.046 client @0x7fb38c06ac68 10.53.0.53#51805 (new-kljby.se-201-11.lab): query: new-kljby.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:49:00.328 client @0x7fb384004488 10.53.1.1#59369 (new-kljby.se-201-11.lab): query: new-kljby.se-201-11.lab IN A -E(0)K (10.53.1.1)
+20-Nov-2026 13:49:16.634 client @0x7fb384004488 10.53.0.53#55569 (new-kljby.se-201-11.lab): query: new-kljby.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:49:16.816 client @0x7fb38c06ac68 10.53.0.53#28945 (y6725.se-201-11.lab): query: y6725.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+20-Nov-2026 13:49:23.199 client @0x7fb38c06ac68 10.53.0.53#37406 (www.se-201-11.lab): query: www.se-201-11.lab IN A -E(0)DC (10.53.1.1)
+
+### curl time_namelookup після повторного перезапуску
+@codespace:/workspaces/opism-lab-DNS$ docker compose -f stand/compose.yaml restart resolver-a
+ Container dnslab-resolver-a-1 Restarting 
+ Container dnslab-resolver-a-1 Started 
+
+root@ns-se-201-11:/lab/zone# curl -so /dev/null -w '%{time_namelookup}\n' http://www.se-201-11.lab/
+0.403604
+
